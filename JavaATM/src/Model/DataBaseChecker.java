@@ -6,16 +6,15 @@ public class DataBaseChecker {
     private final String PATH = "JavaATM/database/database.txt";
     private final String TEMP = "JavaATM/database/temp.txt"; //временный файл введённый на случай защиты от экстренных крашей приложения
 
-    public DataBaseChecker(){
-
+    public DataBaseChecker() {
+        update();
     }
 
-    public boolean check(String request) {//метод для поиска в "БД"
+    public boolean check(String request) {
         try (BufferedReader reader = new BufferedReader(new FileReader(PATH))) {
             while (reader.ready()) {
                 String checked = reader.readLine();
                 if (isContains(request, checked)) {
-                    System.out.println(checked);
                     updTemp(checked);
                     return true;
                 }
@@ -32,27 +31,38 @@ public class DataBaseChecker {
     public void update() {
         String replaceWith;
         String replaceTo;
-
-        try(BufferedReader reader = new BufferedReader(new FileReader(TEMP))){
-            while (reader.ready()){
-                replaceTo = reader.readLine();
+        try {
+            BufferedReader readerTemp = new BufferedReader(new FileReader(TEMP));
+            replaceTo = readerTemp.readLine();
+            readerTemp.close();
+            if (replaceTo != null) {
+                BufferedReader readerPath = new BufferedReader(new FileReader(PATH));
+                while (readerPath.ready()) {
+                    replaceWith = readerPath.readLine();
+                    if (isContains(replaceWith.substring(0, 24), replaceTo.substring(0, 24))) {
+                        replaceSelected(replaceWith, replaceTo, PATH);
+                        break;
+                    }
+                }
+                readerPath.close();
             }
-        }catch (IOException e){
-            System.out.println("Ошибка связи с базой данных updateReplaceTo");
+            FileWriter clear = new FileWriter(TEMP);
+            clear.close();
+        } catch (IOException e) {
+            System.out.println("Ошибка связи с базой данных");
         }
-
     }
 
-    private void updTemp(String updated){
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(TEMP))){
+    private void updTemp(String updated) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(TEMP))) {
             writer.write(updated);
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Ошибка связи с базой данных updTemp");
         }
     }
 
-    private void replaceSelected(String replaceWith, String replaceTo, String filePath){
-        try{
+    private void replaceSelected(String replaceWith, String replaceTo, String filePath) {
+        try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             StringBuffer inputBuffer = new StringBuffer();
             String line;
@@ -64,12 +74,12 @@ public class DataBaseChecker {
             reader.close();
 
             String inputStr = inputBuffer.toString();
-            inputStr = inputStr.replace(replaceWith, replaceTo);
+            inputStr = inputStr.replaceFirst(replaceWith, replaceTo);
 
             FileOutputStream fileOut = new FileOutputStream(filePath);
             fileOut.write(inputStr.getBytes());
             fileOut.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Ошибка связи с базой данных replaceSelected");
         }
     }
@@ -81,19 +91,19 @@ public class DataBaseChecker {
     public int getBalance() {
         int balance = 0;
         String subStr = null;
-        try(BufferedReader reader = new BufferedReader(new FileReader(TEMP))){
-            while (reader.ready()){
-                subStr=reader.readLine();
+        try (BufferedReader reader = new BufferedReader(new FileReader(TEMP))) {
+            while (reader.ready()) {
+                subStr = reader.readLine();
             }
             String temp = subStr.substring(25);
             balance = Integer.parseInt(temp.substring(0, temp.indexOf(" ")));
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Ошибка связи с базой данных getBalance");
         }
         return balance;
     }
 
-    public void transactionRequest(int change){
-        replaceSelected(Integer.toString(getBalance()),Integer.toString(change),TEMP);
+    public void transactionRequest(int change) {
+        replaceSelected(Integer.toString(getBalance()), Integer.toString(change), TEMP);
     }
 }

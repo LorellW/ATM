@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class ATM { // класс имитирующий работу "экрана" банкомата
     private Session session;
-    private Scanner scanner = new Scanner(System.in);// Придумать что делать с потоком!!!!!
+    private Scanner scanner = new Scanner(System.in);
 
     public ATM() {
         session = new Session();
@@ -54,7 +54,7 @@ public class ATM { // класс имитирующий работу "экран
                 3. Снять со счёта\s
                 0. Зактыть""");
         switch (checkAnswer(0, 1, 2, 3)) {
-            case (0) -> System.out.println("close");
+            case (0) -> endView();
             case (1) -> balanceView();
             case (2) -> depositView();
             case (3) -> withdrawView();
@@ -118,6 +118,7 @@ public class ATM { // класс имитирующий работу "экран
 
     private void endView(){
         System.out.println("Завершение работы");
+        session.close();
         scanner.close();
     }
 
