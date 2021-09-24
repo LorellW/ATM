@@ -9,14 +9,22 @@ public class Session {
 
     public Session(){
         authorizer = new Authorization();
-        transactor = new Transaction();
+        transactor = new Transaction(authorizer.transferChecker());
     }
 
     public boolean checkLoginNPassword(Scanner scanner){
         return authorizer.requestLoginNPassword(scanner);
     }
 
-    public void checkBalance(){
+    public int checkBalance(){
+       return transactor.requestBalance();
+    }
 
+    public void putMoney(int deposit){
+        transactor.requestDeposit(deposit);
+    }
+
+    public void takeMoney(){
+        transactor.requestWithdraw();
     }
 }

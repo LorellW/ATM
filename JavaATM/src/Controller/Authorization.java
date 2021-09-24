@@ -20,4 +20,7 @@ public class Authorization {
             return false;
         }
     }
+    protected DataBaseChecker transferChecker(){
+        return checker;
+    }
 }

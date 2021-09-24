@@ -62,10 +62,7 @@ public class ATM { // класс имитирующий работу "экран
     }
 
     private void balanceView() {
-        System.out.println("На счету столько-то денег");
-        /*
-        balance check
-         */
+        System.out.println("На счету "+ session.checkBalance() +" денег");
         System.out.println("""
                 1. Назад\s
                 0. Зактыть""");

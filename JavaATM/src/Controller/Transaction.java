@@ -4,12 +4,18 @@ import Model.DataBaseChecker;
 
 public class Transaction {
     private DataBaseChecker checker;
+    //private int newBalance;
 
-    protected void requestBalance(){
-
+    public Transaction(DataBaseChecker checker){
+        this.checker = checker;
+        //this.newBalance = checker.getBalance();
     }
 
-    protected void requestDeposit(){
+    protected int requestBalance(){
+        return checker.getBalance();
+    }
+
+    protected void requestDeposit(int deposit){
 
     }
 
