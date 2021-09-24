@@ -7,7 +7,7 @@ public class ATM { // класс имитирующий работу "экран
     private Scanner scanner = new Scanner(System.in);// Придумать что делать с потоком!!!!!
 
     public ATM() {
-
+        session = new Session();
     }
 
     public void start() {
@@ -26,15 +26,23 @@ public class ATM { // класс имитирующий работу "экран
 
     private void authorizationView() {
         System.out.println("Введите номер карты и пароль");
-        /*
-        login & password
-         */
-        System.out.println("""
-                1. Продолжить\s
-                0. Зактыть""");
-        switch (checkAnswer(0, 1)) {
-            case (0) -> System.out.println("close");
-            case (1) -> transactionView();
+        if (session.checkLoginNPassword(scanner)) {
+            System.out.println("""
+                    1. Продолжить\s
+                    0. Зактыть""");
+            switch (checkAnswer(0, 1)) {
+                case (0) -> System.out.println("close");
+                case (1) -> transactionView();
+            }
+        }else {
+            System.out.println("""
+                    Неверно введён номер карты и пароль
+                    1. Повторить\s
+                    0. Зактыть""");
+            switch (checkAnswer(0, 1)) {
+                case (0) -> System.out.println("close");
+                case (1) -> authorizationView();
+            }
         }
     }
 
@@ -98,6 +106,7 @@ public class ATM { // класс имитирующий работу "экран
 
 
     private int checkAnswer(int... answers) {
+
         int answer;
         do {
             try {
