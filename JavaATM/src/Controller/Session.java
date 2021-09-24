@@ -13,18 +13,36 @@ public class Session {
     }
 
     public boolean checkLoginNPassword(Scanner scanner){
-        return authorizer.requestLoginNPassword(scanner);
+        String login = scanner.nextLine();
+        String password = scanner.nextLine();
+        return authorizer.requestLoginNPassword(login,password);
     }
 
     public int checkBalance(){
        return transactor.requestBalance();
     }
 
-    public void putMoney(int deposit){
-        transactor.requestDeposit(deposit);
+    public boolean putMoney(Scanner scanner){
+        try {
+            int deposit = Integer.parseInt(scanner.nextLine());
+            return transactor.requestDeposit(deposit);
+        }catch (NumberFormatException e){
+            System.out.println("Неверный формат, попробуйте ещё раз");
+            return false;
+        }
     }
 
-    public void takeMoney(){
-        transactor.requestWithdraw();
+    public boolean takeMoney(Scanner scanner){
+        try {
+            int withdrawal = Integer.parseInt(scanner.nextLine());
+            return transactor.requestWithdraw(withdrawal);
+        }catch (NumberFormatException e){
+            System.out.println("Неверный формат, попробуйте ещё раз");
+            return false;
+        }
+    }
+
+    public void close(){
+        authorizer.closeNWrite();
     }
 }

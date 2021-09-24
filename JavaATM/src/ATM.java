@@ -19,7 +19,7 @@ public class ATM { // класс имитирующий работу "экран
                 1. Авторизация\s
                 0. Зактыть""");
         switch (checkAnswer(0, 1)) {
-            case (0) -> System.out.println("close");
+            case (0) -> endView();
             case (1) -> authorizationView();
         }
     }
@@ -31,16 +31,16 @@ public class ATM { // класс имитирующий работу "экран
                     1. Продолжить\s
                     0. Зактыть""");
             switch (checkAnswer(0, 1)) {
-                case (0) -> System.out.println("close");
+                case (0) -> endView();
                 case (1) -> transactionView();
             }
-        }else {
+        } else {
             System.out.println("""
                     Неверно введён номер карты и пароль
                     1. Повторить\s
                     0. Зактыть""");
             switch (checkAnswer(0, 1)) {
-                case (0) -> System.out.println("close");
+                case (0) -> endView();
                 case (1) -> authorizationView();
             }
         }
@@ -62,45 +62,64 @@ public class ATM { // класс имитирующий работу "экран
     }
 
     private void balanceView() {
-        System.out.println("На счету "+ session.checkBalance() +" денег");
+        System.out.println("На счету " + session.checkBalance());
         System.out.println("""
                 1. Назад\s
                 0. Зактыть""");
         switch (checkAnswer(0, 1)) {
-            case (0) -> System.out.println("close");
+            case (0) -> endView();
             case (1) -> transactionView();
         }
     }
 
     private void depositView() {
         System.out.println("Введите сумму которую хотите внести");
-        /*
-            deposit to the account
-         */
-        System.out.println("""
-                1. Назад\s
-                0. Зактыть""");
-        switch (checkAnswer(0, 1)) {
-            case (0) -> System.out.println("close");
-            case (1) -> transactionView();
+        if (session.putMoney(scanner)) {
+            System.out.println("""
+                    Пополнение счёта прошло успешно
+                    1. Назад\s
+                    0. Зактыть""");
+            switch (checkAnswer(0, 1)) {
+                case (0) -> endView();
+                case (1) -> transactionView();
+            }
+        } else {
+            System.out.println("""
+                    1. Повторить\s
+                    0. Зактыть""");
+            switch (checkAnswer(0, 1)) {
+                case (0) -> endView();
+                case (1) -> depositView();
+            }
         }
     }
 
     private void withdrawView() {
         System.out.println("Введите сумму которую хотите снять");
-        /*
-            withdraw from the account
-         */
-        System.out.println("""
-                1. Назад\s
-                0. Зактыть""");
-        switch (checkAnswer(0, 1)) {
-            case (0) -> System.out.println("close");
-            case (1) -> transactionView();
+        if (session.takeMoney(scanner)) {
+            System.out.println("""
+                    Снятие средств прошло успешно
+                    1. Назад\s
+                    0. Зактыть""");
+            switch (checkAnswer(0, 1)) {
+                case (0) -> endView();
+                case (1) -> transactionView();
+            }
+        }else {
+            System.out.println("""
+                    1. Повторить\s
+                    0. Зактыть""");
+            switch (checkAnswer(0, 1)) {
+                case (0) -> endView();
+                case (1) -> withdrawView();
+            }
         }
     }
 
-
+    private void endView(){
+        System.out.println("Завершение работы");
+        scanner.close();
+    }
 
     private int checkAnswer(int... answers) {
 
