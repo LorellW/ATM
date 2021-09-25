@@ -4,7 +4,12 @@ import java.io.*;
 
 public class DataBaseChecker {
     private final String PATH = "JavaATM/database/database.txt";
-    private final String TEMP = "JavaATM/database/temp.txt"; //временный файл введённый на случай защиты от экстренных крашей приложения
+    private final String TEMP = "JavaATM/database/temp.txt";
+    /*
+    файл temp и методы манипуляций с ним созданы как своего рода бэк-ап на случай
+    непредвиденного краша или экстренного закрытия приложения, т.е.
+    не через предусмотренную опцию "закрыть"
+     */
 
     public DataBaseChecker() {
         update();

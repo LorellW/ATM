@@ -18,7 +18,7 @@ public class ATM { // класс имитирующий работу "экран
     private void welcomeView() {
         System.out.println("""
                 1. Авторизация\s
-                0. Зактыть""");
+                0. Закрыть""");
         switch (checkAnswer(0, 1)) {
             case (0) -> endView();
             case (1) -> authorizationView();
@@ -30,7 +30,7 @@ public class ATM { // класс имитирующий работу "экран
         if (session.checkLoginNPassword(scanner)) {
             System.out.println("""
                     1. Продолжить\s
-                    0. Зактыть""");
+                    0. Закрыть""");
             switch (checkAnswer(0, 1)) {
                 case (0) -> endView();
                 case (1) -> transactionView();
@@ -39,7 +39,7 @@ public class ATM { // класс имитирующий работу "экран
             System.out.println("""
                     Неверно введён номер карты и пароль
                     1. Повторить\s
-                    0. Зактыть""");
+                    0. Закрыть""");
             switch (checkAnswer(0, 1)) {
                 case (0) -> endView();
                 case (1) -> authorizationView();
@@ -53,7 +53,7 @@ public class ATM { // класс имитирующий работу "экран
                 1. Баланс\s
                 2. Пополнить счёт\s
                 3. Снять со счёта\s
-                0. Зактыть""");
+                0. Закрыть""");
         switch (checkAnswer(0, 1, 2, 3)) {
             case (0) -> endView();
             case (1) -> balanceView();
@@ -66,7 +66,7 @@ public class ATM { // класс имитирующий работу "экран
         System.out.println("На счету " + session.checkBalance());
         System.out.println("""
                 1. Назад\s
-                0. Зактыть""");
+                0. Закрыть""");
         switch (checkAnswer(0, 1)) {
             case (0) -> endView();
             case (1) -> transactionView();
@@ -79,7 +79,7 @@ public class ATM { // класс имитирующий работу "экран
             System.out.println("""
                     Пополнение счёта прошло успешно
                     1. Назад\s
-                    0. Зактыть""");
+                    0. Закрыть""");
             switch (checkAnswer(0, 1)) {
                 case (0) -> endView();
                 case (1) -> transactionView();
@@ -87,7 +87,7 @@ public class ATM { // класс имитирующий работу "экран
         } else {
             System.out.println("""
                     1. Повторить\s
-                    0. Зактыть""");
+                    0. Закрыть""");
             switch (checkAnswer(0, 1)) {
                 case (0) -> endView();
                 case (1) -> depositView();
@@ -101,7 +101,7 @@ public class ATM { // класс имитирующий работу "экран
             System.out.println("""
                     Снятие средств прошло успешно
                     1. Назад\s
-                    0. Зактыть""");
+                    0. Закрыть""");
             switch (checkAnswer(0, 1)) {
                 case (0) -> endView();
                 case (1) -> transactionView();
@@ -109,7 +109,7 @@ public class ATM { // класс имитирующий работу "экран
         }else {
             System.out.println("""
                     1. Повторить\s
-                    0. Зактыть""");
+                    0. Закрыть""");
             switch (checkAnswer(0, 1)) {
                 case (0) -> endView();
                 case (1) -> withdrawView();
