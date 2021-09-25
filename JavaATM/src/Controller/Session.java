@@ -32,10 +32,10 @@ public class Session {
         }
     }
 
-    public boolean takeMoney(Scanner scanner){
+    public boolean takeMoney(Scanner scanner,int limit){
         try {
             int withdrawal = Integer.parseInt(scanner.nextLine());
-            return transactor.requestWithdraw(withdrawal);
+            return transactor.requestWithdraw(withdrawal,limit);
         }catch (NumberFormatException e){
             System.out.println("Неверный формат, попробуйте ещё раз");
             return false;

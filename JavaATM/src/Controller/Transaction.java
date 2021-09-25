@@ -28,16 +28,18 @@ public class Transaction {
         }
     }
 
-    protected boolean requestWithdraw(int withdrawal) {
-        int balance = checker.getBalance();
+    protected boolean requestWithdraw(int withdrawal, int limit) {
+        int oldBalance = checker.getBalance();
         if (withdrawal < 0) {
             System.out.println("Вы не можете снять со счёта отрицательную величину");
             return false;
-        } else if (balance < withdrawal) {
+        } else if (oldBalance < withdrawal) {
             System.out.println("Недостаточно средств");
             return false;
+        } else if (withdrawal > limit) {
+            System.out.println("Превышен лимит банкомата");
+            return false;
         } else {
-            int oldBalance = balance;
             int newBalance = oldBalance - withdrawal;
             checker.transactionRequest(newBalance);
             return true;

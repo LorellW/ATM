@@ -15,7 +15,7 @@ public class DataBaseChecker {
             while (reader.ready()) {
                 String checked = reader.readLine();
                 if (isContains(request, checked)) {
-                    updTemp(checked);
+                    createTemp(checked);
                     return true;
                 }
                 if (!reader.ready()) {
@@ -53,7 +53,7 @@ public class DataBaseChecker {
         }
     }
 
-    private void updTemp(String updated) {
+    private void createTemp(String updated) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(TEMP))) {
             writer.write(updated);
         } catch (IOException e) {
@@ -64,16 +64,16 @@ public class DataBaseChecker {
     private void replaceSelected(String replaceWith, String replaceTo, String filePath) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
-            StringBuffer inputBuffer = new StringBuffer();
+            StringBuilder inputBuilder = new StringBuilder();
             String line;
 
             while ((line = reader.readLine()) != null) {
-                inputBuffer.append(line);
-                inputBuffer.append('\n');
+                inputBuilder.append(line);
+                inputBuilder.append('\n');
             }
             reader.close();
 
-            String inputStr = inputBuffer.toString();
+            String inputStr = inputBuilder.toString();
             inputStr = inputStr.replaceFirst(replaceWith, replaceTo);
 
             FileOutputStream fileOut = new FileOutputStream(filePath);

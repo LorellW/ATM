@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class ATM { // класс имитирующий работу "экрана" банкомата
     private Session session;
     private Scanner scanner = new Scanner(System.in);
+    private final int LIMIT = 10000000;// лимит средств в банкомате
 
     public ATM() {
         session = new Session();
@@ -96,7 +97,7 @@ public class ATM { // класс имитирующий работу "экран
 
     private void withdrawView() {
         System.out.println("Введите сумму которую хотите снять");
-        if (session.takeMoney(scanner)) {
+        if (session.takeMoney(scanner,LIMIT)) {
             System.out.println("""
                     Снятие средств прошло успешно
                     1. Назад\s
